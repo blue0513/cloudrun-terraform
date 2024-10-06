@@ -4,6 +4,22 @@ Terraform を使用して Google Cloud Run にサンプルコンテナの hello 
 zenn記事: https://zenn.dev/sousquared/articles/dcdeeeaefea6e1  
 参考: https://zenn.dev/hosimesi/articles/36fedaa5425c7b
 
+
+# 構成図
+```mermaid
+graph LR
+    subgraph ロードバランサー
+        LB[HTTP Load Balancer] 
+        CA[Cloud Armor Policy] <-.-> LB
+        LB --> BS[Backend Service]
+        BS --> NEG[Serverless NEG]
+    end
+
+    U[ユーザー] --> LB
+    NEG --> CR[Cloud Run Service]
+```
+
+
 # 許可するIPアドレスの設定
 
 変更が必要な箇所としては、cloud armor policyのsrc_ip_rangesに自宅のグローバルIPを設定することです。
