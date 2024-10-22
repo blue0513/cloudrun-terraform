@@ -1,4 +1,4 @@
-.PHONY: init plan apply destroy
+.PHONY: init plan apply destroy lint-fix lint
 
 init:
 	terraform init
@@ -11,3 +11,10 @@ apply: init
 
 destroy: init
 	terraform destroy
+
+lint-fix:
+	terraform fmt --recursive
+
+lint:
+	terraform fmt --recursive --check
+	terraform validate
