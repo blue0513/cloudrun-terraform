@@ -22,16 +22,17 @@ graph LR
 # terraform 実行
 
 ```shell
-make plan
-make apply
-make destroy
+$ make setup
+$ make plan
+$ make apply
 ```
 
 # アクセス
 
 作成されたIPにアクセスします。
 ```shell
-$ terraform output
+$ make output
+
 load_balancer_ip = {IP_ADDRESS}
 ```
 
@@ -45,5 +46,5 @@ http://{IP_ADDRESS} にアクセス
 Terraformで作成したリソースをすべて削除して、環境をクリーンな状態に戻すには、以下のコマンドを実行します。
 
 ```shell
-make destroy
+$ make destroy
 ```
