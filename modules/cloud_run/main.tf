@@ -15,9 +15,6 @@ resource "google_cloud_run_v2_service" "hello_cloud_run" {
     containers {
       name  = "hello"
       image = "us-docker.pkg.dev/cloudrun/container/hello:latest"
-      resources {
-        cpu_idle = false
-      }
     }
 
     scaling {
@@ -27,18 +24,13 @@ resource "google_cloud_run_v2_service" "hello_cloud_run" {
 
   }
 
-  traffic {
-    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST" # 最新のリビジョン（デプロイメント）にトラフィックを送信することを指定
-    percent = 100
-  }
-
   deletion_protection = false # 削除保護を無効にする (terraform destroy時に削除できるようにする)
 }
 
 # Cloud Runの未認証呼び出し許可を付与
 resource "google_cloud_run_service_iam_policy" "noauth" {
   location = google_cloud_run_v2_service.hello_cloud_run.location
-  project  = var.project
+  project  = google_cloud_run_v2_service.hello_cloud_run.project
   service  = google_cloud_run_v2_service.hello_cloud_run.name
 
   policy_data = data.google_iam_policy.noauth.policy_data
